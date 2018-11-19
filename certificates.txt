@@ -1,0 +1,56 @@
+TOOL FOR CERTIFICATES
+
+KeyStore Explorer
+
+
+---
+
+
+CREATE CERTIFICATE ON LOCAL COMPUTER
+
+Console has to be run in administrator mode.
+
+1. Check for existing SSH keys
+------------------------------
+On Linux (or GIT console):
+cd ~/.ssh
+ls id_*
+or in Windows:
+cd %userprofile%/.ssh
+dir id_*
+
+2.  Generate a new SSH key
+--------------------------
+On Linux (or GIT console):
+ssh-keygen -t rsa -C "your_email@example.com"
+or in Windows:
+ssh-keygen -t rsa -C "your_email@example.com"
+
+
+---
+
+
+JAVA TRUSTED CERTIFICATES MANAGEMET
+
+Console has to be run in administrator mode.
+
+1. List of trusted certificates 
+-------------------------------
+On Linux (or GIT console):
+keytool -list -keystore "$JAVA_HOME/jre/lib/security/cacerts"
+or in Windows:
+keytool -list -keystore "%JAVA_HOME%/jre/lib/security/cacerts"
+
+2. Add trusted certificate
+--------------------------
+On Linux  (or GIT console):
+keytool -import -alias roche -file "C:\java\Roche Root CA 1 - G2.cer" -keystore "$JAVA_HOME/jre/lib/security/cacerts"
+or in Windows:
+keytool -import -alias roche -file "C:\java\Roche Root CA 1 - G2.cer" -keystore "%JAVA_HOME%/jre/lib/security/cacerts"
+
+3. Remove trusted certificate
+--------------------------
+On Linux  (or GIT console):
+keytool -delete -alias roche -keystore "$JAVA_HOME/jre/lib/security/cacerts"
+or in Windows:
+keytool -delete -alias roche -keystore "%JAVA_HOME%/jre/lib/security/cacerts"
