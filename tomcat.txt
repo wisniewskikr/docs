@@ -1,0 +1,53 @@
+SSH
+
+To configure ssl in Tomcat you have to make following changes in file <tomcat_home>/conf/server.xml:
+
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+               
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS" 
+			   keystoreFile="${catalina.home}/conf/serverkeystore.jks"			   
+			   keystorePass="1qaz2wsx"/>  
+
+  
+---
+
+
+CERTIFICATE AUTHENTICATION 
+
+To configure certificate authentication in Tomcat you have to make following changes in file <tomcat_home>/conf/server.xml:
+
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+               
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+               clientAuth="true" sslProtocol="TLS" 
+			   keystoreFile="${catalina.home}/conf/serverkeystore.jks"			   
+			   keystorePass="1qaz2wsx"
+			   truststoreFile="${catalina.home}/conf/servertruststore.jks"               
+			   truststorePass="1qaz2wsx"/>  
+
+Attention!!!
+Atribute "clientAuth" has to have one of following values:
+- true: is required in all applications
+- want: is possible in some applications but not required in all
+
+
+---
+
+
+SPRING BOOT PROFILES
+
+In file <tomcat_home>/bin/catalina.bat, on beginning of this file (eg. line 96):
+
+set "JAVA_OPTS=%JAVA_OPTS% -Dspring.profiles.active=prod"
+
+Or directly in Spring Boot application in file "application.properties" property "spring.profiles.active"
+
+
+---
