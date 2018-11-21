@@ -51,3 +51,21 @@ Or directly in Spring Boot application in file "application.properties" property
 
 
 ---
+
+
+DEBUG MODE
+
+To run Tomcat in Debug Mode you have to add:
+On windows
+$ catalina.bat jpda start
+On Linux/Unix
+$ catalina.sh jpda start
+
+In file <tomcat_home>/bin/startup.bat you can replace line (56):
+call "%EXECUTABLE%" start %CMD_LINE_ARGS%
+with
+call "%EXECUTABLE%" jpda start %CMD_LINE_ARGS%
+
+Attention!!!
+Please remember to run debugger in your IDE. For instance in Eclipse:
+Run -> Debug Configurations... -> Remote Java Application -> New
