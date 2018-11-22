@@ -69,3 +69,24 @@ call "%EXECUTABLE%" jpda start %CMD_LINE_ARGS%
 Attention!!!
 Please remember to run debugger in your IDE. For instance in Eclipse:
 Run -> Debug Configurations... -> Remote Java Application -> New
+
+
+---
+
+
+LOCKOUT USER AFTER FAILED ATTEMPTS
+
+To configure lockout user in Tomcat you have to make following changes in file <tomcat_home>/conf/server.xml:
+
+<!-- Use the LockOutRealm to prevent attempts to guess user passwords
+           via a brute-force attack -->
+<Realm className="org.apache.catalina.realm.LockOutRealm"
+failureCount="3"
+lockOutTime="300" >
+<!-- This Realm uses the UserDatabase configured in the global JNDI
+	 resources under the key "UserDatabase".  Any edits
+	 that are performed against this UserDatabase are immediately
+	 available for use by the Realm.  -->
+<Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+	   resourceName="UserDatabase"/>
+</Realm>
