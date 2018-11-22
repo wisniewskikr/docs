@@ -1,3 +1,39 @@
+SSH
+
+SSH is used for authentication. It`s like very hard password. It works in following way:
+- we give to our partner public key;
+- when we try to connect then our partner compares is with our private key and give us permission.
+
+
+---
+
+
+SSH LOCATION
+
+- Windows: 	Documents and Settings/User/.ssh
+- Linux: 	etc/ssh
+
+
+---
+
+
+SSH SERVER
+
+If we want to check somebody by SSH then we have to install SSH server. For instance: OpenSsh.
+
+Installation OpenSSH on Linux
+sudo apt-get install openssh-server
+
+Checking
+/etc/init.d/ssh status
+
+Result
+ * sshd is running
+ 
+ 
+---
+
+
 TOOL FOR CERTIFICATES
 
 KeyStore Explorer
@@ -54,3 +90,16 @@ On Linux  (or GIT console):
 keytool -delete -alias roche -keystore "$JAVA_HOME/jre/lib/security/cacerts"
 or in Windows:
 keytool -delete -alias roche -keystore "%JAVA_HOME%/jre/lib/security/cacerts"
+
+
+---
+
+
+KEYSTORE VS TRUSTSTORE
+
+Keystore contains private key, public key and certificate. It is required if we want to be checked by other application. For instance SSH and checked by browser.
+Truststore contains only public key and certificate. It is required if we want to check other application. For instance x509.
+
+To create Truststore from Keystore you have to perform following steps:
+- export certificate from Keystore;
+- create new Trustore and import certificate. Public key will be imported automatically.
