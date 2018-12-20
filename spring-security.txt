@@ -1,0 +1,86 @@
+SPRING SECURITY
+
+Spring Security enables security handlig in Spring. 
+
+Configuration of Spring Security:
+
+http
+* filter 									: add filter to filter chain
+* authenticationProvider 					: custom authentication - checks if username and password are ok
+* exceptionHandling
+	* accessDenied 							: handling user who is logged in but does not have permissions to such resource
+* userDetailsService 						: basing on username creates user: name, password and roles. Then this is used by Authetnication Provider
+* httpBasic									: type of security: BASIC
+	* authenticationEntryPoint 				: handles request when there is no BASIC authentication
+* x509										: type of security: X509 (certificate)
+* loginForm									: type of security: FORM
+	* SuccessHandler						: handles request after success authentication
+	* FailureHandler						: handles request after failure authentication
+* logout									: handles logout
+
+
+
+Example FORM AUTHENTICATION
+
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+        	.authorizeRequests()        		
+        		.antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+        		.anyRequest().authenticated()
+            .and()
+	            .formLogin()
+					.loginPage("/login")
+					.defaultSuccessUrl("/input", true)
+					.permitAll()
+			.and()
+	            .logout();
+        
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.inMemoryAuthentication()
+                .withUser("user").password("{noop}password").roles("USER");
+        
+    }
+    
+}
+
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+    CustomAuthenticationProvider customAuthProvider;
+	
+	@Autowired
+	CustomAuthenticationSuccessHandler customSuccessHandler;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+        	.authorizeRequests()
+        		.anyRequest().authenticated()								
+            .and()
+            .formLogin()
+				.loginPage("/login")
+				.successHandler(customSuccessHandler)
+				.permitAll()				
+			.and()
+            .logout()
+				.permitAll();
+        
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    	auth.authenticationProvider(customAuthProvider);        
+    }
+    
+}
